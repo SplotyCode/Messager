@@ -6,7 +6,7 @@ import org.bson.Document;
 
 public class DatabaseUser extends DataBaseObject {
 
-    private String id, name, email, password;
+    private String id, name, email, password, sessionid;
     private long lastonline, createt;
     private boolean online;
     private AccountStatus status;
@@ -16,7 +16,7 @@ public class DatabaseUser extends DataBaseObject {
         return new Document("id", id).append("name", name).append("email", email)
                 .append("password", password).append("lastonline", lastonline)
                 .append("online", online).append("status", status.getId())
-                .append("created", createt);
+                .append("created", createt).append("sessionid", sessionid);
     }
 
     @Override
@@ -29,6 +29,7 @@ public class DatabaseUser extends DataBaseObject {
         online = document.getBoolean("online");
         status = AccountStatus.fromId(document.getInteger("status"));
         createt = document.getLong("createt");
+        sessionid = document.getString("sessionid");
     }
 
     public String getName() {
@@ -93,5 +94,13 @@ public class DatabaseUser extends DataBaseObject {
 
     public void setCreatet(long createt) {
         this.createt = createt;
+    }
+
+    public String getSessionid() {
+        return sessionid;
+    }
+
+    public void setSessionid(String sessionid) {
+        this.sessionid = sessionid;
     }
 }
