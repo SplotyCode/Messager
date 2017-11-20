@@ -1,12 +1,13 @@
 package me.david.messageserver.database.objects;
 
 import me.david.messagecore.account.AccountStatus;
+import me.david.messageserver.database.DataBaseObject;
 import org.bson.Document;
 
 public class DatabaseUser extends DataBaseObject {
 
     private String id, name, email, password;
-    private long lastonline;
+    private long lastonline, createt;
     private boolean online;
     private AccountStatus status;
 
@@ -14,7 +15,8 @@ public class DatabaseUser extends DataBaseObject {
     public Document write() {
         return new Document("id", id).append("name", name).append("email", email)
                 .append("password", password).append("lastonline", lastonline)
-                .append("online", online).append("status", status.getId());
+                .append("online", online).append("status", status.getId())
+                .append("created", createt);
     }
 
     @Override
@@ -26,6 +28,7 @@ public class DatabaseUser extends DataBaseObject {
         lastonline = document.getLong("lastonline");
         online = document.getBoolean("online");
         status = AccountStatus.fromId(document.getInteger("status"));
+        createt = document.getLong("createt");
     }
 
     public String getName() {
@@ -74,5 +77,21 @@ public class DatabaseUser extends DataBaseObject {
 
     public void setStatus(AccountStatus status) {
         this.status = status;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public long getCreatet() {
+        return createt;
+    }
+
+    public void setCreatet(long createt) {
+        this.createt = createt;
     }
 }

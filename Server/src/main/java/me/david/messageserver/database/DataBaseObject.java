@@ -1,4 +1,4 @@
-package me.david.messageserver.database.objects;
+package me.david.messageserver.database;
 
 import org.bson.Document;
 
