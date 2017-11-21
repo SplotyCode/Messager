@@ -1,2 +1,2 @@
 # Messager
-Messager with MongoDB and Netty
+Messager with Netty for Network <br> and MongoDB with Bson for Database

@@ -9,6 +9,7 @@ public class LoginPacket implements Packet {
 
     private String user, password, mac;
 
+    public LoginPacket(){}
     public LoginPacket(String user, String password, String mac){
         this.user = user;
         this.password = password;

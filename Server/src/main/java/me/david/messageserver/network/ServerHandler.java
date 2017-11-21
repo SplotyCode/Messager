@@ -1,17 +1,18 @@
 package me.david.messageserver.network;
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import me.david.messagecore.netwok.Packet;
+import me.david.messagecore.netwok.packets.*;
+import me.david.messagecore.utils.ChannelUtil;
+import me.david.messageserver.user.Auth;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Packet> {
 
     /*
-     * Channles that are Authenticatet
+     * Channels that are Authenticated
      */
     private ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
@@ -19,9 +20,19 @@ public class ServerHandler extends SimpleChannelInboundHandler<Packet> {
     protected void channelRead0(ChannelHandlerContext ctx, Packet inpacket) throws Exception {
         Channel channel = ctx.channel();
         if(!channels.contains(channel)) {
+            if (inpacket instanceof AuthPacket){
+                if (Auth.handleAuth((AuthPacket) inpacket, channel)) channels.add(channel);
+            }else if(inpacket instanceof LoginPacket) {
+                if (Auth.handleLogin((LoginPacket) inpacket, channel)) channels.add(channel);
+            }else ChannelUtil.sendPacket(new NotAuthenticationRespone(), channel);
+        }else{
 
         }
     }
 
-
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+        if(channels.contains(ctx.channel())) channels.remove(ctx.channel());
+    }
 }

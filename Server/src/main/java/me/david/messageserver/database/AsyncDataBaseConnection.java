@@ -1,9 +1,6 @@
 package me.david.messageserver.database;
 
-import me.david.messageserver.database.objects.DataBaseChat;
-import me.david.messageserver.database.objects.DataBaseMessage;
-import me.david.messageserver.database.objects.DataBaseQueueUser;
-import me.david.messageserver.database.objects.DatabaseUser;
+import me.david.messageserver.database.objects.*;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,6 +32,10 @@ public class AsyncDataBaseConnection {
 
     public void getUser(Consumer<DatabaseUser> cb, String id){
         exec.submit(() -> cb.accept(AsyncDataBaseConnection.this.connection.getUser(id)));
+    }
+
+    public void getUserbyName(Consumer<DatabaseUser> cb, String name){
+        exec.submit(() -> cb.accept(AsyncDataBaseConnection.this.connection.getUserbyName(name)));
     }
 
     public void addQueue(DataBaseQueueUser queue, Runnable run){
@@ -80,6 +81,42 @@ public class AsyncDataBaseConnection {
     public void updateChat(DataBaseChat chat, Runnable run){
         exec.submit(() -> {
             AsyncDataBaseConnection.this.connection.updateChat(chat);
+            run.run();
+        });
+    }
+
+    public void addTimetable(DataBaseTimetable timetable, Runnable run){
+        exec.submit(() -> {
+            AsyncDataBaseConnection.this.connection.addTimeTable(timetable);
+            run.run();
+        });
+    }
+
+    public void getTimeTable(Consumer<DataBaseTimetable> cb, String user){
+        exec.submit(() -> cb.accept(AsyncDataBaseConnection.this.connection.getTimeTable(user)));
+    }
+
+    public void updateTimeTable(DataBaseTimetable timetable, Runnable run){
+        exec.submit(() -> {
+            AsyncDataBaseConnection.this.connection.updateTimeTable(timetable);
+            run.run();
+        });
+    }
+
+    public void addClassHour(DataBaseClassHour classhour, Runnable run){
+        exec.submit(() -> {
+            AsyncDataBaseConnection.this.connection.addClassHour(classhour);
+            run.run();
+        });
+    }
+
+    public void getClassHour(Consumer<DataBaseClassHour> cb, String id){
+        exec.submit(() -> cb.accept(AsyncDataBaseConnection.this.connection.getClassHour(id)));
+    }
+
+    public void updateClassHour(DataBaseClassHour classhour, Runnable run){
+        exec.submit(() -> {
+            AsyncDataBaseConnection.this.connection.updateClassHour(classhour);
             run.run();
         });
     }
