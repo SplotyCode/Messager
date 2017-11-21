@@ -15,11 +15,13 @@ public class DataBaseConnection {
     private MongoClient client;
     private MongoDatabase database;
 
-    private final UpdateOptions UPSERT = new UpdateOptions().upsert(true);
-
     public DataBaseConnection(String host, int port){
         this.client = new MongoClient(host, port);
         this.database = client.getDatabase("messager");
+    }
+
+    public void shutdown(){
+        client.close();
     }
 
     public void updateUser(DatabaseUser user){

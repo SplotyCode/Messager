@@ -28,4 +28,9 @@ public class Decoder extends ByteToMessageDecoder {
         p.read(ps);
         output.add(p);
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+    }
 }

@@ -12,6 +12,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import me.david.messagecore.netwok.Decoder;
 import me.david.messagecore.netwok.Encoder;
 import me.david.messagecore.netwok.Packet;
+import me.david.messagecore.utils.ThreadUtil;
 import me.david.messageserver.Server;
 
 import java.util.Arrays;
@@ -28,9 +29,10 @@ public class NetServer extends Thread {
     private final List<Class<? extends Packet>> IN_PACKETS = Arrays.asList();
 
 
-    public EventLoopGroup elg;
+    private EventLoopGroup elg;
 
     public NetServer(int port, boolean epoll, boolean keepalive, boolean autoreconnect, int autoreconnectinterval){
+        super("Main Netty NetServer");
         this.port = port;
         this.epoll = epoll;
         this.keepalive = keepalive;
@@ -41,7 +43,7 @@ public class NetServer extends Thread {
     @Override
     public void run() {
         Server.instance.logger.info("Starting NetServer on Port " + port + "!");
-        elg = epoll ? new EpollEventLoopGroup() : new NioEventLoopGroup();
+        elg = epoll ? new EpollEventLoopGroup(0, ThreadUtil.getThreadFactory("Netty NetServer Epoll Child #%d")) : new NioEventLoopGroup(0, ThreadUtil.getThreadFactory("Netty NetServer Epoll Child #%d"));
         try {
             new ServerBootstrap()
                     .group(elg)
@@ -71,5 +73,9 @@ public class NetServer extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void shutdown(){
+        elg.shutdownGracefully();
     }
 }
