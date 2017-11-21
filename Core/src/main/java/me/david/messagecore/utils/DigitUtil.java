@@ -2,6 +2,10 @@ package me.david.messagecore.utils;
 
 import java.util.Random;
 
+/*
+ * Generats a Digit such as C234-423a-Hda3-J23J
+ * Depening on the groups and digits
+ */
 public class DigitUtil {
 
     private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

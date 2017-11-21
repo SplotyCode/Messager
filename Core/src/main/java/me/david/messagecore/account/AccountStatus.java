@@ -1,5 +1,8 @@
 package me.david.messagecore.account;
 
+/*
+ * Account status that the user can set
+ */
 public enum AccountStatus {
 
     ONLINE(0),

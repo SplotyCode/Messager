@@ -5,6 +5,9 @@ import me.david.messagecore.netwok.PacketSerializer;
 
 import java.io.IOException;
 
+/*
+ * When a clint auth with the stored user and session id
+ */
 public class AuthPacket implements Packet {
 
     private String userid, session;

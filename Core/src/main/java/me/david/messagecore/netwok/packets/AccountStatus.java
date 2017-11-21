@@ -5,6 +5,9 @@ import me.david.messagecore.netwok.PacketSerializer;
 
 import java.io.IOException;
 
+/*
+ * When the user change the Account Status
+ */
 public class AccountStatus implements Packet {
 
     private boolean status;

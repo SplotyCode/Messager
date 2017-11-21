@@ -1,5 +1,8 @@
 package me.david.messagecore.account;
 
+/*
+ * Days for the TimeTable
+ */
 public enum  TimeTableDay {
 
     MONDAY(0),

@@ -6,6 +6,9 @@ import me.david.messagecore.netwok.PacketSerializer;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/*
+ * When a User creates a new chat
+ */
 public class CreateChat implements Packet {
 
     private String session, name;

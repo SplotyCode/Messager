@@ -7,6 +7,9 @@ import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/*
+ * Gettigs the harwareid and the mac from current machine
+ */
 public final class AuthUtil {
 
     public AuthUtil() throws NoSuchAlgorithmException {}

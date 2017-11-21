@@ -5,6 +5,10 @@ import me.david.messagecore.netwok.PacketSerializer;
 
 import java.io.IOException;
 
+/*
+ * Response from LoginPacket tells the client if the login data was correct
+ * and send the new session id and the userid(user id is not new)
+ */
 public class LoginResponePacket implements Packet {
 
     private boolean failed;

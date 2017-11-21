@@ -7,6 +7,6 @@ public class HttpHandler extends SimpleChannelInboundHandler<Request> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Request request) throws Exception {
-
+        System.out.println(request.getPath());
     }
 }

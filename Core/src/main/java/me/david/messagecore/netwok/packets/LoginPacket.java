@@ -5,6 +5,9 @@ import me.david.messagecore.netwok.PacketSerializer;
 
 import java.io.IOException;
 
+/*
+ * When a User manually logging in
+ */
 public class LoginPacket implements Packet {
 
     private String user, password, mac;

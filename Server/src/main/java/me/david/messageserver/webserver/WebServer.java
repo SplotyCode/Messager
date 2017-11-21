@@ -12,7 +12,6 @@ import me.david.messagecore.utils.ThreadUtil;
 import me.david.messageserver.Server;
 import me.david.messageserver.webserver.handler.HttpDecoder;
 import me.david.messageserver.webserver.handler.HttpHandler;
-import me.david.messageserver.webserver.handler.SocketSwitcher;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -43,11 +42,10 @@ public class WebServer extends Thread {
                     .childHandler(new ChannelInitializer<Channel>() {
                         protected void initChannel(Channel channel) throws Exception {
                             channel.pipeline()
-                                    .addLast("httpCodec", new HttpServerCodec())
-                                    .addLast("webSocketSwitcher", new SocketSwitcher())
-                                    .addLast("compressor", new HttpContentCompressor())
-                                    .addLast("decoder", new HttpDecoder())
-                                    .addLast("httpHandler", new HttpHandler());
+                                    .addLast(new HttpServerCodec())
+                                    .addLast(new HttpContentCompressor())
+                                    .addLast(new HttpDecoder())
+                                    .addLast(new HttpHandler());
                         };
                     })
                     .childOption(ChannelOption.TCP_NODELAY, true)

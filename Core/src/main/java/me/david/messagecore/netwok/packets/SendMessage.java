@@ -5,6 +5,9 @@ import me.david.messagecore.netwok.PacketSerializer;
 
 import java.io.IOException;
 
+/*
+ * When a client sends a message
+ */
 public class SendMessage implements Packet {
 
     private String session, chatid, message;
