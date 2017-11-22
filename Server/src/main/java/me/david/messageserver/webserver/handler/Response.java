@@ -1,10 +1,8 @@
 package me.david.messageserver.webserver.handler;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelOutboundInvoker;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -26,8 +24,6 @@ public class Response extends DefaultFullHttpResponse {
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
-    private boolean close = false;
-
     public Response(HttpResponseStatus status, ByteBuf content) {
         super(HttpVersion.HTTP_1_1, status, content);
 
@@ -40,8 +36,9 @@ public class Response extends DefaultFullHttpResponse {
     }
 
     public void write(ChannelHandlerContext ctx) {
-        this.headers().set(HttpHeaderNames.CONNECTION, this.close ? "Close" : "Keep-Alive");
-        if(!this.close) {
+        boolean close = false;
+        this.headers().set(HttpHeaderNames.CONNECTION, close ? "Close" : "Keep-Alive");
+        if(!close) {
             this.headers().set("KeepAlive", "timeout=5, max=99");
             ctx.writeAndFlush(this, ctx.voidPromise());
         } else ctx.writeAndFlush(this).addListener(ChannelFutureListener.CLOSE);

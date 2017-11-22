@@ -6,7 +6,7 @@ package me.david.messagecore.account;
 public enum  TimeTableDay {
 
     MONDAY(0),
-    THUSEDAY(1),
+    TUESDAY(1),
     WEDNESDAY(2),
     THURSDAY(3),
     FRIDAY(4);

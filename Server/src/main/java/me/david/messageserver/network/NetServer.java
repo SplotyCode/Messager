@@ -16,6 +16,7 @@ import me.david.messagecore.utils.ThreadUtil;
 import me.david.messageserver.Server;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -23,10 +24,13 @@ import java.util.List;
  */
 public class NetServer extends Thread {
 
-    private int port, autoreconnectinterval;
-    private boolean epoll, keepalive, autoreconnect;
-    private final List<Class<? extends Packet>> OUT_PACKETS = Arrays.asList();
-    private final List<Class<? extends Packet>> IN_PACKETS = Arrays.asList();
+    private final int port;
+    private final int autoreconnectinterval;
+    private final boolean epoll;
+    private final boolean keepalive;
+    private final boolean autoreconnect;
+    private final List<Class<? extends Packet>> OUT_PACKETS = Collections.emptyList();
+    private final List<Class<? extends Packet>> IN_PACKETS = Collections.emptyList();
 
 
     private EventLoopGroup elg;
@@ -54,7 +58,7 @@ public class NetServer extends Thread {
                                     .addLast(new Encoder().setOutpackets(OUT_PACKETS))
                                     .addLast(new Decoder().setInpackets(IN_PACKETS))
                                     .addLast(new ServerHandler());
-                        };
+                        }
                     })
                     .childOption(ChannelOption.SO_KEEPALIVE, keepalive)
                     .bind(port).sync().channel().closeFuture().syncUninterruptibly();

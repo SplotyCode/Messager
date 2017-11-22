@@ -110,7 +110,7 @@ public class PacketSerializer extends ByteBuf {
     public void writeIntList(ArrayList<Integer> list) {
         writeVarInt(list.size());
         for(Integer i : list)
-            writeVarInt(i);;
+            writeVarInt(i);
     }
     public void writeStringList(ArrayList<String>list) {
         writeVarInt(list.size());

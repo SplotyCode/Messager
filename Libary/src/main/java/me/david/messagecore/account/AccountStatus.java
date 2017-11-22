@@ -7,7 +7,7 @@ public enum AccountStatus {
 
     ONLINE(0),
     IDLE(1),
-    NOTDISTURB(2),
+    NOT_DISTURB(2),
     INVISIBLE(3);
 
     private final int id;

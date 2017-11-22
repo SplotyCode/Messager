@@ -19,9 +19,10 @@ import java.net.SocketAddress;
 public class WebServer extends Thread {
 
     private EventLoopGroup elg;
-    private int autoreconnectinterval;
-    private boolean epoll, autoreconnect;
-    private SocketAddress address;
+    private final int autoreconnectinterval;
+    private final boolean epoll;
+    private final boolean autoreconnect;
+    private final SocketAddress address;
 
     public WebServer(SocketAddress address, boolean epoll, boolean autoreconnect, int autoreconnectinterval){
         super("Main Netty WebServer");
@@ -46,7 +47,7 @@ public class WebServer extends Thread {
                                     .addLast(new HttpContentCompressor())
                                     .addLast(new HttpDecoder())
                                     .addLast(new HttpHandler());
-                        };
+                        }
                     })
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     .localAddress(address).bind().sync().channel().closeFuture().syncUninterruptibly();

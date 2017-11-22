@@ -2,14 +2,13 @@ package me.david.messageserver.database;
 
 import me.david.messageserver.database.objects.*;
 
-import java.lang.management.ManagementFactory;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class AsyncDataBaseConnection {
 
-    private DataBaseConnection connection;
+    private final DataBaseConnection connection;
     private ExecutorService exec;
 
     public AsyncDataBaseConnection(DataBaseConnection connection){
@@ -118,6 +117,28 @@ public class AsyncDataBaseConnection {
     public void updateClassHour(DataBaseClassHour classhour, Runnable run){
         exec.submit(() -> {
             AsyncDataBaseConnection.this.connection.updateClassHour(classhour);
+            run.run();
+        });
+    }
+
+    public void sessionIdExsits(Consumer<Boolean> cb, String sessionid){
+        exec.submit(() -> cb.accept(AsyncDataBaseConnection.this.connection.sessionIdExsits(sessionid)));
+    }
+
+    public void getSession(Consumer<DataBaseSession> cb, String sessionid){
+        exec.submit(() -> cb.accept(AsyncDataBaseConnection.this.connection.getSession(sessionid)));
+    }
+
+    public void addSession(DataBaseSession session, Runnable run){
+        exec.submit(() -> {
+            AsyncDataBaseConnection.this.connection.addSession(session);
+            run.run();
+        });
+    }
+
+    public void updateSession(DataBaseSession session, Runnable run){
+        exec.submit(() -> {
+            AsyncDataBaseConnection.this.connection.updateSession(session);
             run.run();
         });
     }

@@ -4,19 +4,20 @@ import me.david.messagecore.account.AccountStatus;
 import me.david.messageserver.database.DataBaseObject;
 import org.bson.Document;
 
+import java.util.ArrayList;
+
 public class DatabaseUser extends DataBaseObject {
 
-    private String id, name, email, password, sessionid;
-    private long lastonline, createt;
-    private boolean online;
+    private String id, name, email, password;
+    private ArrayList<String> sessions;
+    private long createt;
     private AccountStatus status;
 
     @Override
     public Document write() {
         return new Document("id", id).append("name", name).append("email", email)
-                .append("password", password).append("lastonline", lastonline)
-                .append("online", online).append("status", status.getId())
-                .append("created", createt).append("sessionid", sessionid);
+                .append("password", password).append("sessions", sessions).append("status", status.getId())
+                .append("created", createt);
     }
 
     @Override
@@ -25,11 +26,9 @@ public class DatabaseUser extends DataBaseObject {
         name = document.getString("name");
         email = document.getString("email");
         password = document.getString("password");
-        lastonline = document.getLong("lastonline");
-        online = document.getBoolean("online");
+        sessions = (ArrayList<String>) document.get("sessions");
         status = AccountStatus.fromId(document.getInteger("status"));
         createt = document.getLong("createt");
-        sessionid = document.getString("sessionid");
     }
 
     public String getName() {
@@ -56,22 +55,6 @@ public class DatabaseUser extends DataBaseObject {
         this.password = password;
     }
 
-    public long getLastonline() {
-        return lastonline;
-    }
-
-    public void setLastonline(long lastonline) {
-        this.lastonline = lastonline;
-    }
-
-    public boolean isOnline() {
-        return online;
-    }
-
-    public void setOnline(boolean online) {
-        this.online = online;
-    }
-
     public AccountStatus getStatus() {
         return status;
     }
@@ -96,11 +79,11 @@ public class DatabaseUser extends DataBaseObject {
         this.createt = createt;
     }
 
-    public String getSessionid() {
-        return sessionid;
+    public ArrayList<String> getSessions() {
+        return sessions;
     }
 
-    public void setSessionid(String sessionid) {
-        this.sessionid = sessionid;
+    public void setSessions(ArrayList<String> sessions) {
+        this.sessions = sessions;
     }
 }

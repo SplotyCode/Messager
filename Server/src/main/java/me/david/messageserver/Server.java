@@ -30,7 +30,7 @@ public class Server implements Runnable {
         Thread.currentThread().setName("Starting/Main Thread");
         instance = this;
         logger = new GLogger(Level.ALL);
-        connection = new DataBaseConnection("localhost", 8887);
+        connection = new DataBaseConnection("localhost", 27017);
         asynccon = new AsyncDataBaseConnection(connection);
         netserver = new NetServer(8888, false, true, true, 1000*5);
         netserver.start();

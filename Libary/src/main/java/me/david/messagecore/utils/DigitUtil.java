@@ -12,7 +12,7 @@ public class DigitUtil {
     private int groups;
     private int digits;
     private String pin;
-    private Random random = new Random();
+    private final Random random = new Random();
     private StringBuilder stringBuilder = new StringBuilder();
 
     public DigitUtil(){

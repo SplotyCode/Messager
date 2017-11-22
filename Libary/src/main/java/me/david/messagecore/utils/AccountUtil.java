@@ -3,7 +3,7 @@ package me.david.messagecore.utils;
 public final class AccountUtil {
 
     //Checks if an String contans other chars than numbers, numbers in alphapet, _, or points
-    private static String charpatter = "/^([a-zA-Z0-9][\\s_.-]?)+$/";
+    private static final String charpatter = "/^([a-zA-Z0-9][\\s_.-]?)+$/";
 
     /*
      * Check if an String is a Valid Name

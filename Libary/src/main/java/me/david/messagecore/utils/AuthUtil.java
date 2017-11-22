@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public final class AuthUtil {
 
-    public AuthUtil() throws NoSuchAlgorithmException {}
+    public AuthUtil() {}
 
     public static String getHWID() throws NoSuchAlgorithmException, UnsupportedEncodingException {
         StringBuilder s = new StringBuilder();

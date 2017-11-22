@@ -12,8 +12,8 @@ public enum  WebServerError {
         this.error = error;
     }
 
-    private int errorId;
-    private String error;
+    private final int errorId;
+    private final String error;
 
     public int getErrorId() {
         return errorId;

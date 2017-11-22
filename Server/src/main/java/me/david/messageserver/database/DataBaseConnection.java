@@ -4,15 +4,12 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOptions;
 import me.david.messageserver.database.objects.*;
 import org.bson.Document;
 
-import javax.print.Doc;
-
 public class DataBaseConnection {
 
-    private MongoClient client;
+    private final MongoClient client;
     private MongoDatabase database;
 
     public DataBaseConnection(String host, int port){
@@ -53,6 +50,7 @@ public class DataBaseConnection {
 
     public void addUser(DatabaseUser user){
         MongoCollection<Document> coll = database.getCollection("users");
+        System.out.println(coll.count());
         coll.insertOne(user.write());
     }
 
@@ -61,10 +59,10 @@ public class DataBaseConnection {
         coll.insertOne(queue.write());
     }
 
-    public DataBaseQueueUser getQueue(String userid){
+    public DataBaseQueueUser getQueue(String userid, String mac){
         MongoCollection<Document> coll = database.getCollection("queue");
         DataBaseQueueUser user = new DataBaseQueueUser();
-        Document doc = coll.find(Filters.eq("user", userid)).first();
+        Document doc = coll.find(Filters.and(Filters.eq("user", userid), Filters.eq("mac", mac))).first();
         if(doc == null)return null;
         user.read(doc);
         return user;
@@ -144,6 +142,30 @@ public class DataBaseConnection {
     public void updateClassHour(DataBaseClassHour classhour){
         MongoCollection<Document> collection = database.getCollection("classhour");
         collection.replaceOne(Filters.eq("id", classhour.getId()), classhour.write());
+    }
+
+    public boolean sessionIdExsits(String sessionid){
+        MongoCollection<Document> coll = database.getCollection("users");
+        return coll.find(Filters.eq("sessions", sessionid)).first() != null;
+    }
+
+    public DataBaseSession getSession(String sessionid){
+        MongoCollection<Document> coll = database.getCollection("sessions");
+        DataBaseSession session = new DataBaseSession();
+        Document doc = coll.find(Filters.eq("session", sessionid)).first();
+        if(doc == null) return null;
+        session.read(doc);
+        return session;
+    }
+
+    public void addSession(DataBaseSession session){
+        MongoCollection<Document> coll = database.getCollection("sessions");
+        coll.insertOne(session.write());
+    }
+
+    public void updateSession(DataBaseSession session){
+        MongoCollection<Document> collection = database.getCollection("sessions");
+        collection.replaceOne(Filters.eq("session", session.getSession()), session.write());
     }
 
 

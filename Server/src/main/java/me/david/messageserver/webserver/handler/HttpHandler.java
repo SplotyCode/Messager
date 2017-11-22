@@ -6,16 +6,19 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
+import java.util.Map;
+
 public class HttpHandler extends SimpleChannelInboundHandler<Request> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Request request) throws Exception {
         ByteBuf buf = Unpooled.buffer();
-        System.out.println(request.getPath());
         switch (request.getPath().toLowerCase()){
             case "/threads/index.html":{
-                for(Thread thread : Thread.getAllStackTraces().keySet()) {
-                    buf.writeBytes((thread.getName() + "<br>\r\n").getBytes());
+                for(Map.Entry<Thread, StackTraceElement[]> en : Thread.getAllStackTraces().entrySet()) {
+                    buf.writeBytes((en.getKey().getName() + " [" + en.getKey().getState().name() + "] Trace: " + en.getValue().length + "<br>\r\n").getBytes());
+                    for(StackTraceElement element : en.getValue())
+                        buf.writeBytes(("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + element.getClassName() + "#" + element.getMethodName() + ":" + element.getLineNumber() + "<br>\r\n").getBytes());
                 }
             }
         }
