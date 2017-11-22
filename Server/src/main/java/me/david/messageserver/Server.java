@@ -27,6 +27,7 @@ public class Server implements Runnable {
 
     @Override
     public void run() {
+        Thread.currentThread().setName("Starting/Main Thread");
         instance = this;
         logger = new GLogger(Level.ALL);
         connection = new DataBaseConnection("localhost", 8887);
@@ -36,7 +37,7 @@ public class Server implements Runnable {
         sendqueue = new SendQueue();
         webserver = new WebServer(new InetSocketAddress("localhost", 8000), Epoll.isAvailable(), true, 1000*8);
         webserver.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::stop, "Stop Thread"));
     }
 
     public void stop(){

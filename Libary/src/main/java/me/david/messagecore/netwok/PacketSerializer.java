@@ -29,6 +29,10 @@ public class PacketSerializer extends ByteBuf {
         this.buf = buf;
     }
 
+    public ByteBuf getBuf() {
+        return buf;
+    }
+
     public void writeVarInt(int value) {
         byte part;
         do {
